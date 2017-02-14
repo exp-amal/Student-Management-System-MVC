@@ -1,0 +1,102 @@
+﻿@model  IEnumerable<StudentManagement.Models.ViewModel.Student>
+@{
+    ViewBag.Title = "StudentsList";
+}
+
+<h2>StudentsList</h2>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#studentsList').dataTable();
+    });
+</script>
+<table id="studentsList"
+       class="table table-condensed table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrollmentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                Course Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @{
+                        var date = item.DateOfBirth.ToShortDateString();
+                        var date2 = item.DateOfBirth;
+                    }
+                    @date
+                </td>
+                <td>
+                    @{ 
+                        int now = int.Parse(DateTime.Today.ToString("yyyyMMdd"));
+                        int dob = int.Parse(date2.ToString("yyyyMMdd"));
+                        string dif = (now - dob).ToString();
+                        string age = "0";
+                        if (dif.Length > 4)
+                        {
+                            age = dif.Substring(0, dif.Length - 4);
+
+                        }
+                    }
+                    @age
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @{
+                        var edate = item.EnrollmentDate.ToShortDateString();
+                    }
+                    @edate
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.course.CourseName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "../StudentsList/EditStudent", new { id = item.Id })
+                    @Html.ActionLink("Delete", "../StudentsList/DeleteStudent", new { id = item.Id })
+                </td>
+            </tr>
+                        }
+    </tbody>
+</table>
